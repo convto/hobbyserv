@@ -68,6 +68,17 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for _, v := range users {
+		if v.Email == param.Email {
+			w.WriteHeader(http.StatusBadRequest)
+			_, err := io.WriteString(w, `{"error":"user email already exists"}"`)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return
+		}
+	}
+
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
 
 	id := uuid.NewV4()
