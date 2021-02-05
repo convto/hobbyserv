@@ -15,3 +15,8 @@ $ go run main.go
 ```
  curl -X POST localhost:9999/users/create -d '{"email":"example@convto.com","password":"123456"}'
 ```
+
+## profile on web
+```
+go tool pprof -http=":8888"
+```
