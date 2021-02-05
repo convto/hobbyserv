@@ -185,6 +185,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
