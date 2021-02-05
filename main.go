@@ -150,17 +150,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
-	err = bcrypt.CompareHashAndPassword(hashed, []byte(param.Password))
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, `{"error":"wrong email or password"}"`)
-		if err != nil {
-			log.Fatal(err)
-		}
-		return
-	}
-
 	var u user
 	for _, v := range users {
 		if v.Email == param.Email {
@@ -172,6 +161,16 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	if u == empty {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, `{"error":"not found user"}"`)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(param.Password))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, `{"error":"wrong email or password"}"`)
 		if err != nil {
 			log.Fatal(err)
 		}
