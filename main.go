@@ -62,7 +62,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
 
-	id, err := uuid.NewV4()
+	id := uuid.NewV4()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		_, err := io.WriteString(w, `{"error":"failed to issue access token"}"`)
