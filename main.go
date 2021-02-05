@@ -33,11 +33,17 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err := io.WriteString(w, `{"error":"failed to read request body"}"`)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return
 	}
 	defer r.Body.Close()
 	type userJSON struct {
@@ -51,6 +57,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 	if param.Email == "" || param.Password == "" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -58,6 +65,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
@@ -69,6 +77,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 	accessToken := base64.StdEncoding.EncodeToString(id.Bytes())
 
@@ -86,6 +95,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
@@ -105,11 +115,17 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err := io.WriteString(w, `{"error":"failed to read request body"}"`)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return
 	}
 	defer r.Body.Close()
 	type userJSON struct {
@@ -123,6 +139,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 	if param.Email == "" || param.Password == "" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -130,6 +147,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
@@ -140,6 +158,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	var u user
@@ -157,6 +176,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		return
 	}
 
 	jsonb, err := json.Marshal(u)
