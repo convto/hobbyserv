@@ -165,7 +165,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	for _, v := range users {
 		if v.Email == param.Email {
 			u = v
-			return
 		}
 	}
 	// userがいない
@@ -188,7 +187,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	_, err = io.Copy(w, bytes.NewReader(jsonb))
 	if err != nil {
 		log.Fatal(err)
