@@ -1,4 +1,4 @@
-package hobbyserv
+package main
 
 import (
 	"bytes"
@@ -133,7 +133,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hashed, _ := bcrypt.GenerateFromPassword([]byte(param.Password), 10)
-	err := bcrypt.CompareHashAndPassword(hashed, []byte(param.Password))
+	err = bcrypt.CompareHashAndPassword(hashed, []byte(param.Password))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, `{"error":"wrong email or password"}"`)
