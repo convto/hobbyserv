@@ -197,7 +197,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/users/create", CreateUser)
-	http.HandleFunc("/endpoint", LoginUser)
+	http.HandleFunc("/users/login", LoginUser)
 
 	log.Fatal(http.ListenAndServe(":9999", nil))
 }
