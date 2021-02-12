@@ -18,5 +18,5 @@ $ go run main.go
 
 ## profile on web
 ```
-go tool pprof -http=":8888"
+go tool pprof -http=":8888" http://localhost:9999/debug/pprof/profile
 ```
