@@ -13,7 +13,7 @@ $ go run main.go
 
 ## login user
 ```
- curl -X POST localhost:9999/users/create -d '{"email":"example@convto.com","password":"123456"}'
+ curl -X POST localhost:9999/users/login -d '{"email":"example@convto.com","password":"123456"}'
 ```
 
 ## profile on web
